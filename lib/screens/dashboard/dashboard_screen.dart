@@ -1,16 +1,32 @@
+import 'package:admin/controllers/dashboard/dashboard_controller.dart';
+import 'package:admin/controllers/login/login_controller.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/screens/dashboard/components/my_fields.dart';
+import 'package:admin/screens/dashboard/components/orders.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../constants.dart';
+import 'components/finance.dart';
 import 'components/header.dart';
 
 import 'components/recent_files.dart';
 import 'components/storage_details.dart';
 
 class DashboardScreen extends StatelessWidget {
+  final controller = Get.put(DashboardController());
+
+  void sessionCheck() async {
+    var isSessionValid = await controller.checkSession();
+
+    if (!isSessionValid) {
+      Get.toNamed("/");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    sessionCheck();
     return SafeArea(
       child: SingleChildScrollView(
         padding: EdgeInsets.all(defaultPadding),
@@ -25,12 +41,11 @@ class DashboardScreen extends StatelessWidget {
                   flex: 5,
                   child: Column(
                     children: [
-                      MyFiles(),
                       SizedBox(height: defaultPadding),
-                      RecentFiles(),
+                      Orders(),
                       if (Responsive.isMobile(context))
                         SizedBox(height: defaultPadding),
-                      if (Responsive.isMobile(context)) StarageDetails(),
+                      if (Responsive.isMobile(context)) FinanceDetails(),
                     ],
                   ),
                 ),
@@ -40,7 +55,7 @@ class DashboardScreen extends StatelessWidget {
                 if (!Responsive.isMobile(context))
                   Expanded(
                     flex: 2,
-                    child: StarageDetails(),
+                    child: FinanceDetails(),
                   ),
               ],
             )

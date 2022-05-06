@@ -4,6 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 enum LoginStatus { initial, loading, authenticated, failed }
 enum SignupStatus { initial, loading, success, failed }
+enum CreateLocationStatus { initial, loading, success, failed }
+enum GrabOrdersStatus { initial, loading, success, failed }
 
 final baseUrl = "https://bartender.leocorno.purefusion.com/v1";
 

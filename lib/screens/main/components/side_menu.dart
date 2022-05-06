@@ -1,3 +1,4 @@
+import 'package:admin/controllers/dashboard/dashboard_controller.dart';
 import 'package:admin/screens/main/main_screen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +9,35 @@ import 'package:scan/scan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SideMenu extends StatelessWidget {
-  const SideMenu({
+  SideMenu({
     Key? key,
   }) : super(key: key);
 
-  void addLocation() {}
+  final locationNameController = TextEditingController();
+  final streetNameController = TextEditingController();
+  final citytNameController = TextEditingController();
+  final regiontNameController = TextEditingController();
+  final postaltNameController = TextEditingController();
+  final countryNameController = TextEditingController();
+
+  void addLocation() {
+    print(locationNameController.text);
+    print(streetNameController.text);
+    print(citytNameController.text);
+    print(regiontNameController.text);
+    print(postaltNameController.text);
+    print(countryNameController.text);
+
+    final DashboardController controller = Get.find();
+
+    controller.createLocation(
+        locationNameController.text,
+        streetNameController.text,
+        citytNameController.text,
+        regiontNameController.text,
+        postaltNameController.text,
+        countryNameController.text);
+  }
 
   void openQR(context) async {
     final code = await showDialog<String?>(
@@ -65,25 +90,24 @@ class SideMenu extends StatelessWidget {
             svgSrc: "assets/icons/drink.svg",
             press: () {
               AwesomeDialog(
-                context: context,
-                animType: AnimType.SCALE,
-                dialogType: DialogType.NO_HEADER,
-                body: AddLocation(),
-                btnOk: SizedBox(
-                    height: 50, //height of button
-                    width: 500,
-                    //width of button
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.orange, // background
-                        onPrimary: Colors.orange, // foreground
+                      context: context,
+                      animType: AnimType.SCALE,
+                      dialogType: DialogType.NO_HEADER,
+                      autoDismiss: false,
+                      onDissmissCallback: (type) {
+                        Navigator.of(context).pop(type);
+                      },
+                      body: AddLocation(
+                        nameController: locationNameController,
+                        streetNameController: streetNameController,
+                        citytNameController: citytNameController,
+                        postaltNameController: postaltNameController,
+                        countryNameController: countryNameController,
+                        regiontNameController: regiontNameController,
                       ),
-                      onPressed: addLocation,
-                      child: Text('Add Location',
-                          style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
-                    )),
-              ).show();
+                      btnOkOnPress: addLocation,
+                      btnOkColor: Colors.orange)
+                  .show();
             },
           ),
           DrawerListTile(
@@ -102,9 +126,22 @@ class SideMenu extends StatelessWidget {
 }
 
 class AddLocation extends StatelessWidget {
-  const AddLocation({
-    Key? key,
-  }) : super(key: key);
+  AddLocation(
+      {Key? key,
+      required this.nameController,
+      required this.streetNameController,
+      required this.citytNameController,
+      required this.regiontNameController,
+      required this.postaltNameController,
+      required this.countryNameController})
+      : super(key: key);
+
+  TextEditingController nameController;
+  TextEditingController streetNameController;
+  TextEditingController citytNameController;
+  TextEditingController regiontNameController;
+  TextEditingController postaltNameController;
+  TextEditingController countryNameController;
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +156,20 @@ class AddLocation extends StatelessWidget {
           SizedBox(
             width: 500,
             child: TextField(
+              controller: nameController,
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                hoverColor: Colors.white,
+                border: OutlineInputBorder(),
+                labelText: 'Location Name',
+              ),
+            ),
+          ),
+          Padding(padding: EdgeInsets.all(10)),
+          SizedBox(
+            width: 500,
+            child: TextField(
+              controller: streetNameController,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 hoverColor: Colors.white,
@@ -131,6 +182,7 @@ class AddLocation extends StatelessWidget {
           SizedBox(
             width: 500,
             child: TextField(
+              controller: citytNameController,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 hoverColor: Colors.white,
@@ -143,6 +195,7 @@ class AddLocation extends StatelessWidget {
           SizedBox(
             width: 500,
             child: TextField(
+              controller: regiontNameController,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 hoverColor: Colors.white,
@@ -155,6 +208,7 @@ class AddLocation extends StatelessWidget {
           SizedBox(
             width: 500,
             child: TextField(
+              controller: postaltNameController,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 hoverColor: Colors.white,
@@ -167,6 +221,7 @@ class AddLocation extends StatelessWidget {
           SizedBox(
             width: 500,
             child: TextField(
+              controller: countryNameController,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 hoverColor: Colors.white,

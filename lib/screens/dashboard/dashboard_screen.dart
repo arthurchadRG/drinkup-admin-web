@@ -1,3 +1,4 @@
+import 'package:admin/Helpers/constants.dart';
 import 'package:admin/controllers/dashboard/dashboard_controller.dart';
 import 'package:admin/controllers/login/login_controller.dart';
 import 'package:admin/responsive.dart';
@@ -27,6 +28,13 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     sessionCheck();
+    controller.getLocations();
+
+    controller.createLocationStatus.listen((creationStatus) {
+      if (creationStatus == CreateLocationStatus.success) {
+        //showAlert(context, "Location Added");
+      }
+    });
 
     return SafeArea(
       child: SingleChildScrollView(

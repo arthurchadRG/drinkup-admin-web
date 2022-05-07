@@ -1,12 +1,17 @@
+import 'package:admin/Helpers/constants.dart';
 import 'package:admin/controllers/dashboard/dashboard_controller.dart';
+import 'package:admin/screens/dashboard/components/orders.dart';
 import 'package:admin/screens/main/main_screen.dart';
 import 'package:admin/screens/scanner/scanner.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../constants.dart';
 
 class SideMenu extends StatelessWidget {
   SideMenu({
@@ -39,34 +44,26 @@ class SideMenu extends StatelessWidget {
         countryNameController.text);
   }
 
-  void openQR(context) async {
-    Get.to(() => DrinkScanner());
-    /* final code = await showDialog<String?>(
+  void openQR(context, controller) async {
+    //Get.to(() => DrinkScanner());
+
+    AwesomeDialog(
       context: context,
-      builder: (BuildContext context) {
-        // var height = MediaQuery.of(context).size.height;
-        // var width = MediaQuery.of(context).size.width;
-        return AlertDialog(
-          insetPadding: EdgeInsets.all(5),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
-            ),
-          ),
-          title: const Text('Scan QR Code'),
-          content: Container(
-            width: 640,
-            height: 480,
-            child: QRolo(),
-          ),
-        );
+      animType: AnimType.SCALE,
+      dialogType: DialogType.NO_HEADER,
+      autoDismiss: false,
+      onDissmissCallback: (type) {
+        Navigator.of(context).pop(type);
       },
-    );
-    print(code);*/
+      body: LocationRow(
+        controller: controller,
+      ),
+    ).show();
   }
 
   @override
   Widget build(BuildContext context) {
+    final DashboardController controller = Get.find();
     return Drawer(
       child: ListView(
         children: [
@@ -83,7 +80,12 @@ class SideMenu extends StatelessWidget {
             title: "Voucher Redeemer",
             svgSrc: "assets/icons/menu_tran.svg",
             press: () {
-              openQR(context);
+              if (controller.locations.length > 0) {
+                openQR(context, controller);
+              } else {
+                showAlert(context,
+                    "Please add a location in order to redeem drink vouchers");
+              }
             },
           ),
           DrawerListTile(
@@ -117,9 +119,43 @@ class SideMenu extends StatelessWidget {
             press: () async {
               final prefs = await SharedPreferences.getInstance();
               prefs.clear();
+              Get.deleteAll();
               Get.toNamed('/');
             },
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class LocationRow extends StatelessWidget {
+  LocationRow({Key? key, required DashboardController this.controller})
+      : super(key: key);
+
+  DashboardController controller;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Text("Please select a location from below"),
+          SizedBox(
+            width: double.infinity,
+            child: DataTable2(
+              columnSpacing: defaultPadding,
+              minWidth: 600,
+              columns: [
+                DataColumn(
+                  label: Text("Address"),
+                ),
+              ],
+              rows: List.generate(
+                controller.locations.length,
+                (index) => locationRow(controller.locations[index], context),
+              ),
+            ),
+          )
         ],
       ),
     );

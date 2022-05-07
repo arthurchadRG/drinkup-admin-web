@@ -3,12 +3,15 @@ import 'package:admin/controllers/dashboard/dashboard_controller.dart';
 import 'package:admin/models/RecentFile.dart';
 import 'package:admin/models/dashboard/orders_model.dart';
 import 'package:admin/screens/dashboard/components/header.dart';
+import 'package:admin/screens/scanner/scanner.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
+import 'package:admin/models/dashboard/locations_model.dart' as lm;
 import '../../../constants.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class Orders extends StatelessWidget {
   Orders({
@@ -68,6 +71,39 @@ class Orders extends StatelessWidget {
       );
     });
   }
+}
+
+DataRow locationRow(lm.Data data, dynamic context) {
+  void locationTapped(String location_id) {
+    if (kIsWeb) {
+      showAlert(context, "Scanning only supported on the mobile app.");
+    } else {
+      Get.to(() => DrinkScanner());
+    }
+  }
+
+  return DataRow(
+    cells: [
+      DataCell(
+        GestureDetector(
+          onTap: () => locationTapped(data.id),
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                "assets/icons/drink.svg",
+                height: 20,
+                width: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+                child: Text(data.street),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
+  );
 }
 
 DataRow orderRow(Data orderInfo) {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:admin/models/dashboard/locations_model.dart';
 import 'package:admin/models/dashboard/orders_model.dart';
 import 'package:admin/models/dashboard/retailer_model.dart';
 import 'package:admin/models/login/login_model.dart';
@@ -35,6 +36,28 @@ class HttpService {
       }
     } on Exception catch (e) {
       throw Exception('Failed to cats $e');
+    }
+  }
+
+  Future<LocationsModel> getLocation() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final String? barback = prefs.getString('barback');
+      _httpclient.options.headers["x-barback-token"] = barback;
+      final response = await _httpclient.get(
+        '$baseUrl/locations',
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 200) {
+        return LocationsModel.fromJson(response.data);
+      } else {
+        print(response.data);
+        throw Exception('Failed to create location');
+      }
+    } on Exception catch (e) {
+      throw Exception('Failed to add location $e');
     }
   }
 

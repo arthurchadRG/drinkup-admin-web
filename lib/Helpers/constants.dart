@@ -6,6 +6,7 @@ enum LoginStatus { initial, loading, authenticated, failed }
 enum SignupStatus { initial, loading, success, failed }
 enum CreateLocationStatus { initial, loading, success, failed }
 enum GrabOrdersStatus { initial, loading, success, failed }
+enum ScannerStatus { initial, loading, success, failed }
 
 final baseUrl = "https://bartender.leocorno.purefusion.com/v1";
 

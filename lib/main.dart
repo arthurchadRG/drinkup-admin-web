@@ -4,6 +4,7 @@ import 'package:admin/screens/dashboard/dashboard_screen.dart';
 import 'package:admin/screens/login/login_guts.dart';
 import 'package:admin/screens/login/login_screen.dart';
 import 'package:admin/screens/main/main_screen.dart';
+import 'package:admin/screens/show_order/show_order_web.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,6 +48,10 @@ class MyApp extends StatelessWidget {
                   child: MainScreen(),
                 ),
             transition: Transition.cupertino),
+        GetPage(
+            name: '/order',
+            page: () => ShowOrderWeb(),
+            transition: Transition.cupertino)
       ],
       /*home: MultiProvider(
         providers: [

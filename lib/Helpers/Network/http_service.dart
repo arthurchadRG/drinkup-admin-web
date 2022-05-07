@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:admin/models/dashboard/orders_model.dart';
 import 'package:admin/models/dashboard/retailer_model.dart';
 import 'package:admin/models/login/login_model.dart';
+import 'package:admin/models/order_details_model.dart';
 import 'package:admin/models/signup/signup_model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,6 +66,20 @@ class HttpService {
       }
     } on Exception catch (e) {
       throw Exception('Failed to add location $e');
+    }
+  }
+
+  Future<OrderDetailsModel> getOrder(String id) async {
+    final response = await _httpclient.get(
+      '$baseUrl/orders/$id',
+    );
+
+    if (response.statusCode == 200) {
+      print(response.data);
+      return OrderDetailsModel.fromJson(response.data);
+    } else {
+      print(response.data);
+      throw Exception('Failed to grab drink categories');
     }
   }
 

@@ -1,11 +1,11 @@
 import 'package:admin/controllers/dashboard/dashboard_controller.dart';
 import 'package:admin/screens/main/main_screen.dart';
+import 'package:admin/screens/scanner/scanner.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:qrolo/qrolo.dart';
-import 'package:scan/scan.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SideMenu extends StatelessWidget {
@@ -40,7 +40,8 @@ class SideMenu extends StatelessWidget {
   }
 
   void openQR(context) async {
-    final code = await showDialog<String?>(
+    Get.to(() => DrinkScanner());
+    /* final code = await showDialog<String?>(
       context: context,
       builder: (BuildContext context) {
         // var height = MediaQuery.of(context).size.height;
@@ -61,7 +62,7 @@ class SideMenu extends StatelessWidget {
         );
       },
     );
-    print(code);
+    print(code);*/
   }
 
   @override

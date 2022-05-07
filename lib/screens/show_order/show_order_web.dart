@@ -89,7 +89,7 @@ class ShowOrderWeb extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                         ),
                         QrImage(
-                          data: "1234567890",
+                          data: controller.orderId.value,
                           version: QrVersions.auto,
                           size: 150.0,
                         ),

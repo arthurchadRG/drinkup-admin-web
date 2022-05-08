@@ -40,6 +40,8 @@ dependencies:
   awesome_dialog: ^2.2.0
   qr_flutter: ^4.0.0
   barcode: ^2.1.0
+  qrolo: ^0.1.0-nullsafety.01.2.12.0-259.9.beta
+  intl: ^0.17.0
 
 
 dev_dependencies:

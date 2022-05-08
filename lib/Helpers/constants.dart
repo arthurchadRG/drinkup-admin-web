@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 
 enum LoginStatus { initial, loading, authenticated, failed }
 enum SignupStatus { initial, loading, success, failed }
@@ -10,6 +9,7 @@ enum CreateLocationStatus { initial, loading, success, failed }
 enum GetLocationStatus { initial, loading, success, failed }
 enum GrabOrdersStatus { initial, loading, success, failed }
 enum ScannerStatus { initial, loading, success, failed }
+enum RedeemStatus { initial, loading, success, failed }
 
 final baseUrl = "https://bartender.leocorno.purefusion.com/v1";
 
@@ -20,6 +20,13 @@ extension HexColor on Color {
     if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
     buffer.write(hexString.replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
+  }
+
+  String parseDate(String date) {
+    DateTime dt = DateTime.parse(date);
+    String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(dt);
+
+    return formattedDate;
   }
 
   /// Prefixes a hash sign if [leadingHashSign] is set to `true` (default is `true`).
@@ -34,6 +41,7 @@ void showAlert(dynamic context, String message) {
   AwesomeDialog(
     context: context,
     animType: AnimType.SCALE,
+    padding: EdgeInsets.all(20),
     dialogType: DialogType.NO_HEADER,
     autoDismiss: false,
     onDissmissCallback: (type) {

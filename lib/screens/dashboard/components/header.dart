@@ -54,14 +54,14 @@ class ProfileCard extends StatelessWidget {
       child: Row(
         children: [
           Image.asset(
-            "assets/images/lighting.png",
+            "assets/images/flat_circle.png",
             height: 38,
           ),
           if (!Responsive.isMobile(context))
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("Lighting Bar"),
+              child: Text("DrinkUp Admin"),
             ),
         ],
       ),

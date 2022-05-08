@@ -1,6 +1,7 @@
 import 'package:admin/Helpers/constants.dart';
 import 'package:admin/controllers/dashboard/dashboard_controller.dart';
 import 'package:admin/controllers/login/login_controller.dart';
+import 'package:admin/controllers/show_order/redeem_controller.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/screens/dashboard/components/my_fields.dart';
 import 'package:admin/screens/dashboard/components/orders.dart';
@@ -16,6 +17,8 @@ import 'components/storage_details.dart';
 
 class DashboardScreen extends StatelessWidget {
   final controller = Get.put(DashboardController());
+
+  final redeemController = Get.put(RedeemController());
 
   void sessionCheck() async {
     var isSessionValid = await controller.checkSession();

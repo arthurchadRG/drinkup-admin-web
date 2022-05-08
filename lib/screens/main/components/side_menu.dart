@@ -51,7 +51,7 @@ class SideMenu extends StatelessWidget {
       context: context,
       animType: AnimType.SCALE,
       dialogType: DialogType.NO_HEADER,
-      autoDismiss: false,
+      autoDismiss: true,
       onDissmissCallback: (type) {
         Navigator.of(context).pop(type);
       },

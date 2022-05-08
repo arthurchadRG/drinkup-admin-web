@@ -38,7 +38,7 @@ class Data {
     this.latitude,
     this.longitude,
     this.timezone,
-    this.name,
+    required this.name,
   });
   late final String id;
   late final String retailerId;
@@ -53,7 +53,7 @@ class Data {
   late final Null latitude;
   late final Null longitude;
   late final Null timezone;
-  late final Null name;
+  late final String name;
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];

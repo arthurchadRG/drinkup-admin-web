@@ -31,6 +31,8 @@ class Data {
     required this.retailerId,
     required this.skuKey,
     required this.redeemedAt,
+    required this.skuPrice,
+    required this.locationName,
   });
   late final int id;
   late final String orderId;
@@ -38,6 +40,8 @@ class Data {
   late final String retailerId;
   late final String skuKey;
   late final String redeemedAt;
+  late final double skuPrice;
+  late final String locationName;
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -46,6 +50,8 @@ class Data {
     retailerId = json['retailer_id'];
     skuKey = json['sku_key'];
     redeemedAt = json['redeemed_at'];
+    skuPrice = json['sku_price'];
+    locationName = json['location_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +62,8 @@ class Data {
     _data['retailer_id'] = retailerId;
     _data['sku_key'] = skuKey;
     _data['redeemed_at'] = redeemedAt;
+    _data['sku_price'] = skuPrice;
+    _data['location_name'] = locationName;
     return _data;
   }
 }

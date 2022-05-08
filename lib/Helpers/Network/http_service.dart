@@ -5,6 +5,8 @@ import 'package:admin/models/dashboard/orders_model.dart';
 import 'package:admin/models/dashboard/retailer_model.dart';
 import 'package:admin/models/login/login_model.dart';
 import 'package:admin/models/order_details_model.dart';
+import 'package:admin/models/show_order/redeem_model.dart';
+import 'package:admin/models/show_order/sku_order.dart';
 import 'package:admin/models/signup/signup_model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -83,6 +85,34 @@ class HttpService {
 
       if (response.statusCode == 200) {
         return RetailerModel.fromJson(response.data);
+      } else {
+        print(response.data);
+        throw Exception('Failed to create location');
+      }
+    } on Exception catch (e) {
+      throw Exception('Failed to add location $e');
+    }
+  }
+
+  Future<RedeemModel> redeemItem(
+      List<SkuOrder> orders, String order_id, String location_id) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final String? barback = prefs.getString('barback');
+      _httpclient.options.headers["x-barback-token"] = barback;
+      final response = await _httpclient.post(
+        '$baseUrl/redemptions',
+        data: jsonEncode({
+          "order_id": order_id,
+          "location_id": location_id,
+          "skus": orders,
+        }),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 200) {
+        return RedeemModel.fromJson(response.data);
       } else {
         print(response.data);
         throw Exception('Failed to create location');

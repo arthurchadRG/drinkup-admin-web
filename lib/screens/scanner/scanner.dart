@@ -9,8 +9,9 @@ ScanController scanController = ScanController();
 String qrcode = 'Unknown';
 
 class DrinkScanner extends StatelessWidget {
-  const DrinkScanner({Key? key}) : super(key: key);
+  DrinkScanner({Key? key, required this.location_id}) : super(key: key);
 
+  String location_id;
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ScannerController());
@@ -18,11 +19,13 @@ class DrinkScanner extends StatelessWidget {
       if (scannerStatus == ScannerStatus.success) {
         print(controller.order_items);
         scanController.resume();
-        Get.to(ShowOrder());
+        Get.to(ShowOrder(
+          location_id: location_id,
+        ));
       }
     });
 
-    //controller.getOrder("93EW5J37");
+    //controller.getOrder("4GZ6RRGR");
 
     return Scaffold(
         body: Stack(children: <Widget>[
@@ -45,6 +48,13 @@ class DrinkScanner extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
+                IconButton(
+                  icon: Image.asset('assets/images/back.png'),
+                  iconSize: 32,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
                 Text(
                   "Scan Drinkup QR",
                   style: TextStyle(fontSize: 20, color: Colors.white),

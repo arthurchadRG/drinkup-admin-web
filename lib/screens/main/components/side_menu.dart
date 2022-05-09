@@ -202,6 +202,8 @@ class AddLocation extends StatelessWidget {
       if (p != null) {
         GoogleMapsPlaces _places = GoogleMapsPlaces(
           apiKey: kGoogleApiKey,
+          baseUrl:
+              "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api",
           apiHeaders: await const GoogleApiHeaders().getHeaders(),
         );
         PlacesDetailsResponse detail =

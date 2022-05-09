@@ -135,10 +135,12 @@ packages:
   flutter_google_places:
     dependency: "direct main"
     description:
-      name: flutter_google_places
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.0"
+      path: "."
+      ref: "v0.3.2"
+      resolved-ref: fa34845e80254c247909f40655d204e1b9aca18f
+      url: "https://github.com/fluttercommunity/flutter_google_places"
+    source: git
+    version: "0.3.2"
   flutter_lints:
     dependency: transitive
     description:
@@ -204,7 +206,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.3"
+    version: "0.13.4"
   http_parser:
     dependency: transitive
     description:
@@ -428,7 +430,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.26.0"
+    version: "0.27.3"
   scan:
     dependency: "direct main"
     description:

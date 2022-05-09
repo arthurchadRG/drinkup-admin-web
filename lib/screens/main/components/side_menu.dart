@@ -11,7 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:google_api_headers/google_api_headers.dart';
 import '../../../constants.dart';
 
 class SideMenu extends StatelessWidget {
@@ -191,7 +191,56 @@ class AddLocation extends StatelessWidget {
           apiKey: kGoogleApiKey,
           mode: Mode.overlay, // Mode.fullscreen
           language: "en",
-          components: [new Component(Component.country, "ca")]);
+          strictbounds: false, //required
+          radius: 1000,
+          region: "ca",
+          offset: 0,
+          components: [Component(Component.country, "ca")]);
+
+      if (p != null) {
+        GoogleMapsPlaces _places = GoogleMapsPlaces(
+          apiKey: kGoogleApiKey,
+          apiHeaders: await const GoogleApiHeaders().getHeaders(),
+        );
+        PlacesDetailsResponse detail =
+            await _places.getDetailsByPlaceId(p.placeId!);
+
+        final lat = detail.result.geometry!.location.lat;
+        final lng = detail.result.geometry!.location.lng;
+
+        print("Full address: ${detail.result.formattedAddress}");
+
+        streetNameController.text = detail.result.addressComponents
+            .where((element) => element.types.contains("street_number"))
+            .first
+            .longName;
+
+        streetNameController.text += " ";
+
+        streetNameController.text += detail.result.addressComponents
+            .where((element) => element.types.contains("route"))
+            .first
+            .longName;
+        citytNameController.text = detail.result.addressComponents
+            .where((element) => element.types.contains("locality"))
+            .first
+            .longName;
+        regiontNameController.text = detail.result.addressComponents
+            .where((element) =>
+                element.types.contains("administrative_area_level_1"))
+            .first
+            .longName;
+
+        postaltNameController.text = detail.result.addressComponents
+            .where((element) => element.types.contains("postal_code"))
+            .first
+            .longName;
+
+        countryNameController.text = detail.result.addressComponents
+            .where((element) => element.types.contains("country"))
+            .first
+            .longName;
+      }
     }
 
     return Center(
@@ -234,6 +283,7 @@ class AddLocation extends StatelessWidget {
             width: 500,
             child: TextField(
               controller: citytNameController,
+              readOnly: true,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 hoverColor: Colors.white,
@@ -247,6 +297,7 @@ class AddLocation extends StatelessWidget {
             width: 500,
             child: TextField(
               controller: regiontNameController,
+              readOnly: true,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 hoverColor: Colors.white,
@@ -260,6 +311,7 @@ class AddLocation extends StatelessWidget {
             width: 500,
             child: TextField(
               controller: postaltNameController,
+              readOnly: true,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 hoverColor: Colors.white,
@@ -273,6 +325,7 @@ class AddLocation extends StatelessWidget {
             width: 500,
             child: TextField(
               controller: countryNameController,
+              readOnly: true,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 hoverColor: Colors.white,

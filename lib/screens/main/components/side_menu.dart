@@ -6,9 +6,10 @@ import 'package:admin/screens/scanner/scanner.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
+import 'package:google_maps_webservice/places.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
@@ -182,6 +183,17 @@ class AddLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> showPlaces() async {
+      const kGoogleApiKey = "AIzaSyBfkI01H8BX-c7V-bvFJSNiCWOPkQP0z_U";
+
+      Prediction? p = await PlacesAutocomplete.show(
+          context: context,
+          apiKey: kGoogleApiKey,
+          mode: Mode.overlay, // Mode.fullscreen
+          language: "fr",
+          components: [new Component(Component.country, "fr")]);
+    }
+
     return Center(
       child: Column(
         children: [
@@ -206,12 +218,14 @@ class AddLocation extends StatelessWidget {
           SizedBox(
             width: 500,
             child: TextField(
+              onTap: () => showPlaces(),
+              readOnly: true,
               controller: streetNameController,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 hoverColor: Colors.white,
                 border: OutlineInputBorder(),
-                labelText: 'Street',
+                labelText: 'Address',
               ),
             ),
           ),

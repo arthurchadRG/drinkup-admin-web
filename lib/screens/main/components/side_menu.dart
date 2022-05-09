@@ -191,7 +191,9 @@ class AddLocation extends StatelessWidget {
           apiKey: kGoogleApiKey,
           mode: Mode.overlay, // Mode.fullscreen
           language: "en",
-          strictbounds: false, //required
+          strictbounds: false,
+          proxyBaseUrl:
+              "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api", //required
           radius: 1000,
           region: "ca",
           offset: 0,

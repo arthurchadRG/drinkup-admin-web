@@ -190,8 +190,8 @@ class AddLocation extends StatelessWidget {
           context: context,
           apiKey: kGoogleApiKey,
           mode: Mode.overlay, // Mode.fullscreen
-          language: "fr",
-          components: [new Component(Component.country, "fr")]);
+          language: "en",
+          components: [new Component(Component.country, "ca")]);
     }
 
     return Center(

@@ -17,13 +17,13 @@ class DashboardController extends GetxController {
   HttpService networkEngine = HttpService();
 
   void createLocation(String name, String street, String city, String region,
-      String postal, String country) async {
+      String postal, String country, String lat, String long) async {
     createLocationStatus.value = CreateLocationStatus.loading;
     try {
       print("network thing");
 
       var response = await networkEngine.createLocation(
-          name, street, city, region, postal, country);
+          name, street, city, region, postal, country, lat, long);
 
       createLocationStatus.value = CreateLocationStatus.success;
       getLocations();

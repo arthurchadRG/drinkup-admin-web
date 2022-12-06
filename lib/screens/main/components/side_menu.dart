@@ -8,6 +8,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geocoder2/geocoder2.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,6 +26,8 @@ class SideMenu extends StatelessWidget {
   final regiontNameController = TextEditingController();
   final postaltNameController = TextEditingController();
   final countryNameController = TextEditingController();
+  final latController = TextEditingController();
+  final longController = TextEditingController();
 
   void addLocation() {
     print(locationNameController.text);
@@ -34,6 +37,9 @@ class SideMenu extends StatelessWidget {
     print(postaltNameController.text);
     print(countryNameController.text);
 
+    print(latController.text);
+    print(longController.text);
+
     final DashboardController controller = Get.find();
 
     controller.createLocation(
@@ -42,7 +48,9 @@ class SideMenu extends StatelessWidget {
         citytNameController.text,
         regiontNameController.text,
         postaltNameController.text,
-        countryNameController.text);
+        countryNameController.text,
+        latController.text,
+        longController.text);
   }
 
   void openQR(context, controller) async {
@@ -108,6 +116,8 @@ class SideMenu extends StatelessWidget {
                         postaltNameController: postaltNameController,
                         countryNameController: countryNameController,
                         regiontNameController: regiontNameController,
+                        latController: latController,
+                        longController: longController,
                       ),
                       btnOkOnPress: addLocation,
                       btnOkColor: Colors.orange)
@@ -135,6 +145,7 @@ class LocationRow extends StatelessWidget {
       : super(key: key);
 
   DashboardController controller;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -171,7 +182,9 @@ class AddLocation extends StatelessWidget {
       required this.citytNameController,
       required this.regiontNameController,
       required this.postaltNameController,
-      required this.countryNameController})
+      required this.countryNameController,
+      required this.latController,
+      required this.longController})
       : super(key: key);
 
   TextEditingController nameController;
@@ -180,6 +193,8 @@ class AddLocation extends StatelessWidget {
   TextEditingController regiontNameController;
   TextEditingController postaltNameController;
   TextEditingController countryNameController;
+  TextEditingController latController;
+  TextEditingController longController;
 
   @override
   Widget build(BuildContext context) {
@@ -192,8 +207,7 @@ class AddLocation extends StatelessWidget {
           mode: Mode.overlay, // Mode.fullscreen
           language: "en",
           strictbounds: false,
-          proxyBaseUrl:
-              "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api", //required
+          //required
           radius: 1000,
           region: "ca",
           offset: 0,
@@ -202,8 +216,6 @@ class AddLocation extends StatelessWidget {
       if (p != null) {
         GoogleMapsPlaces _places = GoogleMapsPlaces(
           apiKey: kGoogleApiKey,
-          baseUrl:
-              "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api",
           apiHeaders: await const GoogleApiHeaders().getHeaders(),
         );
         PlacesDetailsResponse detail =
@@ -221,29 +233,49 @@ class AddLocation extends StatelessWidget {
 
         streetNameController.text += " ";
 
-        streetNameController.text += detail.result.addressComponents
+        var streetNameValue = detail.result.addressComponents
             .where((element) => element.types.contains("route"))
             .first
             .longName;
-        citytNameController.text = detail.result.addressComponents
+
+        var cityValue = detail.result.addressComponents
             .where((element) => element.types.contains("locality"))
             .first
             .longName;
-        regiontNameController.text = detail.result.addressComponents
+
+        var regionValue = detail.result.addressComponents
             .where((element) =>
                 element.types.contains("administrative_area_level_1"))
             .first
             .longName;
 
-        postaltNameController.text = detail.result.addressComponents
+        var postalValue = detail.result.addressComponents
             .where((element) => element.types.contains("postal_code"))
             .first
             .longName;
 
-        countryNameController.text = detail.result.addressComponents
+        var countryValue = detail.result.addressComponents
             .where((element) => element.types.contains("country"))
             .first
             .longName;
+
+        streetNameController.text += streetNameValue;
+
+        citytNameController.text = cityValue;
+
+        regiontNameController.text = regionValue;
+
+        postaltNameController.text = postalValue;
+
+        countryNameController.text = countryValue;
+
+        GeoData data = await Geocoder2.getDataFromAddress(
+            address:
+                "$streetNameValue, $cityValue , $regionValue, $postalValue, $countryValue",
+            googleMapApiKey: "AIzaSyBfkI01H8BX-c7V-bvFJSNiCWOPkQP0z_U");
+
+        latController.text = data.latitude.toString();
+        longController.text = data.longitude.toString();
       }
     }
 

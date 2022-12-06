@@ -35,8 +35,8 @@ class Data {
     required this.countryCode,
     this.street2,
     this.street3,
-    this.latitude,
-    this.longitude,
+    required this.latitude,
+    required this.longitude,
     this.timezone,
     required this.name,
   });
@@ -50,8 +50,8 @@ class Data {
   late final String countryCode;
   late final Null street2;
   late final Null street3;
-  late final Null latitude;
-  late final Null longitude;
+  late final double latitude;
+  late final double longitude;
   late final Null timezone;
   late final String name;
 

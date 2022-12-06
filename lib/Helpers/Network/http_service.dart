@@ -63,8 +63,15 @@ class HttpService {
     }
   }
 
-  Future<RetailerModel> createLocation(String name, String street, String city,
-      String region, String postal, String country) async {
+  Future<RetailerModel> createLocation(
+      String name,
+      String street,
+      String city,
+      String region,
+      String postal,
+      String country,
+      String lat,
+      String long) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final String? barback = prefs.getString('barback');
@@ -78,6 +85,8 @@ class HttpService {
           "region": region,
           "postal_code": postal,
           "country_code": country,
+          "latitude": lat,
+          "longitude": long,
         }),
       );
 

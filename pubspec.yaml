@@ -46,6 +46,7 @@ dependencies:
     git:
       url: https://github.com/fluttercommunity/flutter_google_places
       ref: v0.3.2
+  geocoder2: ^1.4.0
 
 
 dev_dependencies:

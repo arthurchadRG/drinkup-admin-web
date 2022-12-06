@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
             page: () => MultiProvider(
                   providers: [
                     ChangeNotifierProvider(
-                      create: (context) => MenuController(),
+                      create: (context) => MenueController(),
                     ),
                   ],
                   child: MainScreen(),

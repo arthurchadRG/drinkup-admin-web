@@ -38,7 +38,8 @@ class ShowOrderWeb extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
-                          "Order From " + controller.sender_name.toString(),
+                          controller.sender_name.toString() +
+                              " sent you drinks!",
                           style: TextStyle(
                             fontFamily: 'DMSans',
                             fontSize: 20.0,
@@ -49,11 +50,13 @@ class ShowOrderWeb extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Align(
-                        alignment: Alignment.center,
+                        alignment: Alignment.topCenter,
                         child: Text(
                           "Show the QR code below to a participating Drinkup Location",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'DMSans',
                             fontSize: 15.0,
@@ -72,10 +75,14 @@ class ShowOrderWeb extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Image(
-                                height:
-                                    MediaQuery.of(context).size.height / 2.7,
-                                image: AssetImage("assets/images/success.png")),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Image(
+                                  height:
+                                      MediaQuery.of(context).size.height / 6.0,
+                                  image:
+                                      AssetImage("assets/images/success.png")),
+                            ),
                             QrImage(
                               data: controller.orderId.value,
                               version: QrVersions.auto,
@@ -119,8 +126,8 @@ class ShowOrderWeb extends StatelessWidget {
                                   }),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 50, right: 50, top: 15),
+                              padding:
+                                  const EdgeInsets.only(left: 50, right: 50),
                               child: Row(
                                 children: [
                                   Text("Total Price",
@@ -145,7 +152,7 @@ class ShowOrderWeb extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
-                              child: Text("Want to find where to redeem?",
+                              child: Text("Want to find a location to redeem?",
                                   style: TextStyle(
                                     fontFamily: 'DMSans',
                                     fontSize: 14.0,

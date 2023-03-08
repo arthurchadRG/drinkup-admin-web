@@ -33,12 +33,6 @@ class Data {
     required this.region,
     required this.postalCode,
     required this.countryCode,
-    this.street2,
-    this.street3,
-    this.latitude,
-    this.longitude,
-    this.timezone,
-    this.name,
   });
   late final String id;
   late final String retailerId;
@@ -48,12 +42,6 @@ class Data {
   late final String region;
   late final String postalCode;
   late final String countryCode;
-  late final Null street2;
-  late final Null street3;
-  late final Null latitude;
-  late final Null longitude;
-  late final Null timezone;
-  late final Null name;
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -64,12 +52,6 @@ class Data {
     region = json['region'];
     postalCode = json['postal_code'];
     countryCode = json['country_code'];
-    street2 = json['street2'];
-    street3 = json['street3'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-    timezone = json['timezone'];
-    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -82,12 +64,7 @@ class Data {
     _data['region'] = region;
     _data['postal_code'] = postalCode;
     _data['country_code'] = countryCode;
-    _data['street2'] = street2;
-    _data['street3'] = street3;
-    _data['latitude'] = latitude;
-    _data['longitude'] = longitude;
-    _data['timezone'] = timezone;
-    _data['name'] = name;
+
     return _data;
   }
 }

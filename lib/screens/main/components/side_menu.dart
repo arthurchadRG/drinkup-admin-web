@@ -7,6 +7,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoder2/geocoder2.dart';
 import 'package:get/get.dart';
@@ -62,7 +63,7 @@ class SideMenu extends StatelessWidget {
       dialogType: DialogType.NO_HEADER,
       autoDismiss: true,
       onDissmissCallback: (type) {
-        Navigator.of(context).pop(type);
+        Get.toNamed('/dashboard');
       },
       body: LocationRow(
         controller: controller,
@@ -73,6 +74,7 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DashboardController controller = Get.find();
+
     return Drawer(
       child: ListView(
         children: [
@@ -303,7 +305,49 @@ class AddLocation extends StatelessWidget {
           SizedBox(
             width: 500,
             child: TextField(
-              onTap: () => showPlaces(),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MapBoxAutoCompleteWidget(
+                      apiKey:
+                          "pk.eyJ1IjoiYXJ0aHVyY2hhZCIsImEiOiJjbGV6MnNtYWUyNGlmM3lxb3VhNDhoMjh6In0.pyqEeeGi4-bJUPnB3p0XQw",
+                      hint: "Addresss",
+                      country: "ca",
+                      onSelect: (place) async {
+                        // TODO : Process the result gotten
+                        streetNameController.text =
+                            place.placeName!.split(',')[0];
+
+                        citytNameController.text =
+                            place.placeName!.split(',')[1];
+
+                        print(place.placeName!.split(',')[2]);
+
+                        regiontNameController.text =
+                            place.placeName!.split(',')[2].split(' ')[1];
+
+                        postaltNameController.text =
+                            place.placeName!.split(',')[2].split(' ')[2] +
+                                place.placeName!.split(',')[2].split(' ')[3];
+
+                        countryNameController.text =
+                            place.placeName!.split(',')[3];
+
+                        GeoData data = await Geocoder2.getDataFromAddress(
+                            address:
+                                "${streetNameController.text}, ${citytNameController.text} , ${regiontNameController.text}, ${postaltNameController.text}, ${countryNameController.text}",
+                            googleMapApiKey:
+                                "AIzaSyBfkI01H8BX-c7V-bvFJSNiCWOPkQP0z_U");
+
+                        latController.text = data.latitude.toString();
+                        longController.text = data.longitude.toString();
+                      },
+                      limit: 10,
+                    ),
+                  ),
+                );
+              },
               readOnly: true,
               controller: streetNameController,
               decoration: InputDecoration(

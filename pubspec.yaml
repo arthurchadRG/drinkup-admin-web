@@ -47,6 +47,8 @@ dependencies:
       url: https://github.com/fluttercommunity/flutter_google_places
       ref: v0.3.2
   geocoder2: ^1.4.0
+  flutter_mapbox_autocomplete: ^2.0.0
+  mapbox_search: ^3.0.1+2
 
 
 dev_dependencies:

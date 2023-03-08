@@ -170,6 +170,7 @@ class HttpService {
   Future<SignupModel> signup(
       String identifier, String secret, String business_name) async {
     try {
+      print('$baseUrl/retailers');
       final response = await _httpclient.post(
         '$baseUrl/retailers',
         data: jsonEncode(<String, String>{

@@ -4,14 +4,20 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 enum LoginStatus { initial, loading, authenticated, failed }
+
 enum SignupStatus { initial, loading, success, failed }
+
 enum CreateLocationStatus { initial, loading, success, failed }
+
 enum GetLocationStatus { initial, loading, success, failed }
+
 enum GrabOrdersStatus { initial, loading, success, failed }
+
 enum ScannerStatus { initial, loading, success, failed }
+
 enum RedeemStatus { initial, loading, success, failed }
 
-final baseUrl = "https://bartender.leocorno.purefusion.com/v1";
+final baseUrl = "https://drinkup-be.onrender.com/v1";
 
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".

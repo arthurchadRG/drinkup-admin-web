@@ -11,6 +11,8 @@ class ScannerController extends GetxController {
   final sender_name = "".obs;
   final receiver_name = "".obs;
 
+  final total_amount = 0.0.obs;
+
   var order_items = <Items>[].obs;
 
   HttpService networkEngine = HttpService();
@@ -23,6 +25,7 @@ class ScannerController extends GetxController {
       orderId.value = orderDetails.data.id;
       sender_name.value = orderDetails.data.senderName;
       receiver_name.value = orderDetails.data.toName;
+      total_amount.value = orderDetails.data.totalAmount;
       order_items.value = orderDetails.data.items;
       scannerStatus.value = ScannerStatus.success;
     } catch (e) {

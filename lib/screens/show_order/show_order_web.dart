@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import '../../Helpers/UI/DrinkupButton.dart';
 import 'drink_entry.dart';
 
 class ShowOrderWeb extends StatelessWidget {
@@ -24,103 +25,156 @@ class ShowOrderWeb extends StatelessWidget {
 
     return GetX<ScannerController>(builder: (controller) {
       return Scaffold(
-          body: Stack(
-        children: <Widget>[
-          Container(
-            // ignore: prefer_const_constructors
-            decoration: BoxDecoration(
-              image: const DecorationImage(
-                image: AssetImage("assets/images/bg.png"),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                if (controller.scannerStatus.value == ScannerStatus.loading)
-                  spinkit,
-                Container(
-                    margin: EdgeInsets.all(30),
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image:
-                                  AssetImage("assets/images/card-picture.png"),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          height: 200,
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.all(20),
-                          child: Container(
-                            margin:
-                                EdgeInsets.only(top: 20, left: 20, right: 20),
-                            child: Column(
-                              children: [
-                                Image(
-                                  width: 80,
-                                  image:
-                                      AssetImage("assets/images/wrapper.png"),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(5),
-                                ),
-                                Text(
-                                  "Hey, ${controller.receiver_name.value} you've received a drinkup voucher from ${controller.sender_name.value}",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Text(
-                          "Show this QR code to redeem your drink",
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            child: Stack(
+              children: <Widget>[
+                Column(
+                  children: [
+                    if (controller.scannerStatus.value == ScannerStatus.loading)
+                      spinkit,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Order From " + controller.sender_name.toString(),
                           style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                            fontFamily: 'DMSans',
+                            fontSize: 20.0,
+                            color: HexColor.fromHex("#1E2843"),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        QrImage(
-                          data: controller.orderId.value,
-                          version: QrVersions.auto,
-                          size: 150.0,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Show the QR code below to a participating Drinkup Location",
+                          style: TextStyle(
+                            fontFamily: 'DMSans',
+                            fontSize: 15.0,
+                            color: HexColor.fromHex("#1E2843"),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const Padding(padding: EdgeInsets.only(top: 10)),
-                        SizedBox(
-                            child: GridView.count(
-                          padding: const EdgeInsets.only(left: 30),
-                          childAspectRatio: 3,
-                          shrinkWrap: true,
-                          crossAxisCount: 2,
-                          children: List<DrinkEntry>.generate(
-                              controller.order_items.length, (index) {
-                            return DrinkEntry(
-                                sku: controller.order_items[index].skuKey,
-                                available:
-                                    controller.order_items[index].available,
-                                order_id: controller.orderId.value,
-                                count: controller.order_items[index].count,
-                                quantity: controller.order_items[index].count
-                                    .toString(),
-                                typeOfDrink: controller.order_items[index].name
-                                    .toString());
-                          }),
-                        )),
-                      ],
-                    ))
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(40.0),
+                      child: Card(
+                        color: Colors.white,
+                        elevation: 2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image(
+                                height:
+                                    MediaQuery.of(context).size.height / 2.7,
+                                image: AssetImage("assets/images/success.png")),
+                            QrImage(
+                              data: controller.orderId.value,
+                              version: QrVersions.auto,
+                              size: 150.0,
+                            ),
+                            SizedBox(
+                              height: 100,
+                              child: ListView.builder(
+                                  itemCount: controller.order_items.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 50, right: 50, top: 10),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                              controller.order_items[index].name
+                                                  .toString(),
+                                              style: TextStyle(
+                                                fontFamily: 'DMSans',
+                                                fontSize: 14.0,
+                                                color:
+                                                    HexColor.fromHex("#1E2843"),
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                          Spacer(),
+                                          Text(
+                                              controller
+                                                  .order_items[index].count
+                                                  .toString(),
+                                              style: TextStyle(
+                                                fontFamily: 'DMSans',
+                                                fontSize: 14.0,
+                                                color:
+                                                    HexColor.fromHex("#1E2843"),
+                                                fontWeight: FontWeight.bold,
+                                              ))
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 50, right: 50, top: 15),
+                              child: Row(
+                                children: [
+                                  Text("Total Price",
+                                      style: TextStyle(
+                                        fontFamily: 'DMSans',
+                                        fontSize: 14.0,
+                                        color: HexColor.fromHex("#A1A6B3"),
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  Spacer(),
+                                  Text(
+                                      "\$" + controller.total_amount.toString(),
+                                      style: TextStyle(
+                                        fontFamily: 'DMSans',
+                                        fontSize: 14.0,
+                                        color: HexColor.fromHex("#1E2843"),
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  Padding(padding: EdgeInsets.only(bottom: 70))
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text("Want to find where to redeem?",
+                                  style: TextStyle(
+                                    fontFamily: 'DMSans',
+                                    fontSize: 14.0,
+                                    color: HexColor.fromHex("#A1A6B3"),
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 20, top: 10),
+                              child: SizedBox(
+                                height: 50, //height of button
+                                width: MediaQuery.of(context).size.width /
+                                    1.7, //width of button
+                                child: DrinkupButton(
+                                    bgColor: "#E1BB3B",
+                                    onclick: _redeemAllDrinks,
+                                    buttonText: "Download Our App"),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
-          )
-        ],
-      ));
+          ));
     });
   }
 }

@@ -7,7 +7,6 @@ import 'package:admin/screens/main/main_screen.dart';
 import 'package:admin/screens/show_order/show_order_web.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,8 +26,6 @@ class MyApp extends StatelessWidget {
       title: 'Drinkup Admin Panel',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Colors.white),
         canvasColor: secondaryColor,
       ),
       initialRoute: '/',

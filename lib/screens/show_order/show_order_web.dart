@@ -70,7 +70,7 @@ class ShowOrderWeb extends StatelessWidget {
                       padding: const EdgeInsets.all(40.0),
                       child: Card(
                         color: Colors.white,
-                        elevation: 2,
+                        elevation: 10,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,

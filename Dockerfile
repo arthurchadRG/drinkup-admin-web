@@ -1,31 +1,29 @@
-#Stage 1 - Install dependencies and build the app
-FROM debian:latest AS build-env
+# Use the official Flutter Docker image as the base image
+FROM cirrusci/flutter:stable
 
-# Install flutter dependencies
-RUN apt-get update 
-RUN apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback python3
-RUN apt-get clean
+# Set the working directory
+WORKDIR /app
 
-# Clone the flutter repo
-RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+# Copy the Flutter web app files to the container
+COPY . /app
 
-# Set flutter path
-# RUN /usr/local/flutter/bin/flutter doctor -v
-ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
+# Build the Flutter web app
+RUN flutter build web --release
 
-# Run flutter doctor
-RUN flutter doctor -v
-# Enable flutter web
-RUN flutter channel master
-RUN flutter upgrade
-RUN flutter config --enable-web
+# Use the official Nginx Docker image as the base image for serving static files
+FROM nginx:latest
 
-# Copy files to container and build
-RUN mkdir /app/
-COPY . /app/
-WORKDIR /app/
-RUN flutter build web
+# Remove the default Nginx configuration
+RUN rm /etc/nginx/conf.d/default.conf
 
-# Stage 2 - Create the run-time image
-FROM nginx:1.21.1-alpine
-COPY --from=build-env /app/build/web /usr/share/nginx/html
+# Copy the Nginx configuration file to the container
+COPY nginx.conf /etc/nginx/conf.d/
+
+# Copy the built Flutter web app files to the Nginx web root directory
+COPY --from=0 /app/build/web /usr/share/nginx/html
+
+# Expose port 80 for Nginx
+EXPOSE 80
+
+# Start Nginx when the container starts
+CMD ["nginx", "-g", "daemon off;"]

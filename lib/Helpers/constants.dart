@@ -17,7 +17,7 @@ enum ScannerStatus { initial, loading, success, failed }
 
 enum RedeemStatus { initial, loading, success, failed }
 
-final baseUrl = "https://drinkup-be.onrender.com/v1";
+final baseUrl = "https://drinkup-sb-jjjn.onrender.com/v1";
 
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".

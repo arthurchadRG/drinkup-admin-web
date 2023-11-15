@@ -311,7 +311,7 @@ class AddLocation extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => MapBoxAutoCompleteWidget(
                       apiKey:
-                          "pk.eyJ1IjoiYXJ0aHVyY2hhZCIsImEiOiJjbGV6MnNtYWUyNGlmM3lxb3VhNDhoMjh6In0.pyqEeeGi4-bJUPnB3p0XQw",
+                          "pk.eyJ1IjoiY2FydGh1cjg4IiwiYSI6ImNrODg5bmJiMjA2ZnMza2x1eWswZmphc2kifQ.clGMon8jkHQH3P8s0X7hNg",
                       hint: "Addresss",
                       country: "ca",
                       onSelect: (place) async {
